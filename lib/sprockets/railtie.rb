@@ -115,9 +115,9 @@ module Sprockets
       # With cache classes on, Sprockets won't check the FS when files
       # change. Preferable in production when the FS only changes on
       # deploys when the app restarts.
-      if config.cache_classes
-        app.assets = app.assets.index
-      end
+      # if config.cache_classes
+      #   app.assets = app.assets.index
+      # end
 
       if config.assets.compile
         if app.routes.respond_to?(:prepend)
