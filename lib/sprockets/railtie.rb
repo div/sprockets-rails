@@ -18,8 +18,8 @@ module Rails
     remove_possible_method :assets=
 
     # Returns Sprockets::Environment for app config.
-    def assets
-      @assets ||= Sprockets::Environment.new(root.to_s) do |env|
+    def assets_env
+      @assets_env ||= Sprockets::Environment.new(root.to_s) do |env|
         env.version = ::Rails.env
 
         path = "#{config.root}/tmp/cache/assets/#{::Rails.env}"
@@ -29,6 +29,9 @@ module Rails
           include ::Sprockets::Rails::Helper
         end
       end
+    end
+    def assets
+      @assets = assets_env
     end
     attr_writer :assets
   end
@@ -115,9 +118,9 @@ module Sprockets
       # With cache classes on, Sprockets won't check the FS when files
       # change. Preferable in production when the FS only changes on
       # deploys when the app restarts.
-      # if config.cache_classes
-      #   app.assets = app.assets.index
-      # end
+      if config.cache_classes
+        app.assets = app.assets.index
+      end
 
       if config.assets.compile
         if app.routes.respond_to?(:prepend)
