@@ -31,7 +31,7 @@ module Rails
       end
     end
     def assets
-      @assets = assets_env
+      @assets ||= assets_env
     end
     attr_writer :assets
   end
